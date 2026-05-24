@@ -270,7 +270,7 @@
 
   // MUSIC defaults
   if (music) {
-    music.volume = 0.05;
+    music.volume = 0.25;
 
     // Start from second 35 when metadata is ready.
     music.addEventListener('loadedmetadata', tryApplyStartPosition);
