@@ -1,0 +1,487 @@
+/* Mohamed & Nada Wedding - extracted from index.html for maintainability */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+
+}
+
+:root {
+  --curve: 70px;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.58)),
+    url("illustration.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: #444;
+}
+
+body.is-locked {
+  height: 100vh;
+  overflow: hidden;
+  touch-action: none;
+}
+
+section {
+  padding: 100px 20px;
+  position: relative;
+}
+
+.container {
+  max-width: 1300px;
+  margin: auto;
+  text-align: center;
+}
+
+/* =========================
+   OPENING DOORS
+========================== */
+
+#door-container {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  overflow: hidden;
+}
+
+.door {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  backdrop-filter: blur(30px);
+  background: rgba(255, 255, 255, 0.10);
+  transition: 2s ease;
+}
+
+.left-door {
+  left: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.right-door {
+  right: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.door-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 20px;
+  z-index: 5;
+  text-align: center;
+}
+
+.door-content h1 {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(64px, 10vw, 150px);
+  font-weight: normal;
+  color: white;
+  margin-bottom: 0;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.door-content p {
+  font-size: clamp(18px, 3.5vw, 42px);
+  letter-spacing: clamp(4px, 1.5vw, 12px);
+  text-transform: uppercase;
+  color: white;
+  margin-bottom: 0;
+  font-weight: 300;
+}
+
+/* Open button (Uiverse-like) */
+.open-btn {
+  background-color: rgba(255, 255, 255, 0.78);
+  color: black;
+  border-radius: 50%;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 600;
+  width: clamp(115px, 14vw, 170px);
+  height: clamp(115px, 14vw, 170px);
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 0 0 black;
+  display: grid;
+  place-items: center;
+  font-family: 'Times New Roman', serif;
+  backdrop-filter: blur(8px);
+}
+
+.open-btn:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 5px 0 0 black;
+}
+
+.open-btn:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+}
+
+.open .left-door {
+  transform: translateX(-100%);
+}
+
+.open .right-door {
+  transform: translateX(100%);
+}
+
+.open .door-content {
+  opacity: 0;
+  transition: 1s;
+}
+
+/* =========================
+   HERO
+========================== */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35));
+  border-bottom-left-radius: var(--curve);
+  border-bottom-right-radius: var(--curve);
+  overflow: hidden;
+}
+
+.hero-content {
+  width: 100%;
+  text-align: center;
+  animation: fadeUp 1.3s ease;
+}
+
+.hero img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  border-radius: var(--curve);
+  display: block;
+  margin: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+}
+
+.hero h2 {
+  margin-top: 40px;
+  font-family: 'Pinyon Script', cursive;
+  font-size: 110px;
+  font-weight: normal;
+  color: #7b5d56;
+}
+
+.hero-subtitle {
+  font-size: 26px;
+  color: #666;
+  margin-top: 10px;
+  letter-spacing: 3px;
+}
+
+/* =========================
+   VERSE
+========================== */
+
+.verse {
+  max-width: 900px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(12px);
+  padding: 60px;
+  border-radius: 40px;
+  font-size: 32px;
+  line-height: 2;
+  color: #555;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+}
+
+/* =========================
+   COUNTDOWN
+========================== */
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.box {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 45px 20px;
+  border-radius: 35px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+  transition: 0.3s;
+}
+
+.box:hover {
+  transform: translateY(-10px);
+}
+
+.box h3 {
+  font-size: 58px;
+  color: #7b5d56;
+}
+
+.box p {
+  margin-top: 12px;
+  font-size: 24px;
+  color: #666;
+}
+
+/* =========================
+   STORY
+========================== */
+
+.story {
+  max-width: 1000px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  padding: 70px;
+  border-radius: 40px;
+  line-height: 2.2;
+  font-size: 25px;
+  color: #666;
+}
+
+/* =========================
+   DETAILS
+========================== */
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 45px 30px;
+  border-radius: 35px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card h3 {
+  font-size: 34px;
+  color: #7b5d56;
+  margin-bottom: 15px;
+}
+
+.card p {
+  font-size: 23px;
+  color: #666;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 15px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  background: #7b5d56;
+  color: white;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  background: #674d46;
+}
+
+/* =========================
+   FOOTER
+========================== */
+
+.footer {
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 20px;
+  color: #777;
+}
+
+/* =========================
+   MUSIC BUTTON
+========================== */
+
+.music-btn {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: none;
+  background: #7b5d56;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
+  overflow: hidden;
+}
+
+.music-btn.is-muted::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-50%) rotate(-35deg);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.music-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.music-btn:focus-visible,
+.open-btn:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid rgba(123, 93, 86, 0.45);
+  outline-offset: 3px;
+}
+
+/* =========================
+   SCROLL ANIMATION
+========================== */
+
+.fade {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 1.2s ease;
+}
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+========================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+
+  .hero-content {
+    animation: none;
+  }
+
+  .fade {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .box,
+  .card,
+  .open-btn,
+  .btn {
+    transition: none;
+  }
+
+  .box:hover,
+  .card:hover,
+  .open-btn:hover,
+  .btn:hover {
+    transform: none;
+  }
+}
+
+/* =========================
+   MOBILE
+========================== */
+
+@media (max-width: 768px) {
+  :root {
+    --curve: 45px;
+  }
+
+  .door-content h1 {
+    font-size: 85px;
+  }
+
+  .door-content p {
+    font-size: 24px;
+    letter-spacing: 5px;
+  }
+
+  .open-btn {
+    width: 160px;
+    height: 160px;
+    font-size: 22px;
+  }
+
+  body {
+    background-attachment: scroll;
+  }
+
+  .hero img {
+    height: 85vh;
+    border-bottom-left-radius: var(--curve);
+    border-bottom-right-radius: var(--curve);
+  }
+
+  .hero h2 {
+    font-size: 70px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+
+  .verse,
+  .story {
+    font-size: 20px;
+    padding: 35px 25px;
+  }
+
+  .box h3 {
+    font-size: 42px;
+  }
+}

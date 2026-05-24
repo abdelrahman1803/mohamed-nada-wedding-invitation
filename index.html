@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wedding invitation for Mohamed & Nada" />
+
+  <title>Mohamed & Nada Wedding</title>
+
+  <!-- Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body class="is-locked pre-open">
+
+  <!-- MUSIC -->
+
+  <audio id="music" loop preload="none">
+    <source src="https://cdn1.esm3.com/music/2533/esm3.com.197286.mp3" type="audio/mp3">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-btn" id="music-toggle" type="button" onclick="toggleMute()" aria-pressed="false" aria-label="Mute">
+    ♫
+  </button>
+
+  <!-- OPENING DOORS -->
+
+  <div id="door-container">
+
+    <div class="door left-door"></div>
+    <div class="door right-door"></div>
+
+    <div class="door-content">
+
+      <h1>
+        Mohamed & Nada
+      </h1>
+
+      <p>
+        Wedding Invitation
+      </p>
+
+      <button type="button" class="open-btn" onclick="openDoors()">
+        Start
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <img src="illustration.png"
+        alt="Mohamed and Nada" loading="eager" decoding="async">
+
+      <h2>
+        Mohamed & Nada
+      </h2>
+
+      <p class="hero-subtitle">
+        We are delighted to invite you to celebrate our wedding
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- VERSE -->
+
+  <section class="fade">
+
+    <div class="container">
+
+      <div class="verse">
+
+        ﴾ وَجَعَلَ بَيْنَكُم مَوَدَّةً وَرَحْمَةً ﴿
+
+        <br><br>
+
+        “And He placed between you affection and mercy”
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- COUNTDOWN -->
+
+  <section class="fade">
+
+    <div class="container">
+
+      <div class="countdown">
+
+        <div class="box">
+          <h3 id="days">0</h3>
+          <p>Days</p>
+        </div>
+
+        <div class="box">
+          <h3 id="hours">0</h3>
+          <p>Hours</p>
+        </div>
+
+        <div class="box">
+          <h3 id="minutes">0</h3>
+          <p>Minutes</p>
+        </div>
+
+        <div class="box">
+          <h3 id="seconds">0</h3>
+          <p>Seconds</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- STORY -->
+
+  <section class="fade">
+
+    <div class="container">
+
+      <div class="story">
+
+        A simple moment started our story,
+        and with every day our bond grew stronger
+        with love and comfort.
+
+        <br><br>
+
+        Today, we would love for you
+        to be part of our happiest moment.
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- DETAILS -->
+
+  <section class="fade">
+
+    <div class="container">
+
+      <div class="details">
+
+        <div class="card">
+
+          <h3>Date</h3>
+
+          <p>
+            2 / 7 / 2026
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <h3>Time</h3>
+
+          <p>
+            8:00 PM
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <h3>Venue</h3>
+
+          <p>
+            Villa Mianda
+          </p>
+
+          <a href="https://maps.app.goo.gl/D5zLSAQnT8EdVdQH9"
+             target="_blank" rel="noopener noreferrer"
+             class="btn">
+
+            Open Location
+
+          </a>
+
+          <a
+            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mohamed%20%26%20Nada%20Wedding&dates=20260702T200000/20260702T210000&ctz=Africa%2FCairo&details=Wedding%20Invitation%0ALocation%3A%20Villa%20Mianda%0AMap%3A%20https%3A%2F%2Fmaps.app.goo.gl%2FD5zLSAQnT8EdVdQH9&location=Villa%20Mianda"
+            target="_blank" rel="noopener noreferrer"
+            class="btn"
+            aria-label="Save to Google Calendar">
+            Save to Google Calendar
+          </a>
+
+          <button type="button" class="btn" onclick="saveToCalendarWithReminders()" aria-label="Download calendar file with reminders">
+            Calendar (with reminders)
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+
+    Made with love for Mohamed & Nada ✨
+
+  </footer>
+
+</body>
+
+</html>
