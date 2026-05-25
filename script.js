@@ -2,6 +2,9 @@
 
 (function () {
   const doorContainer = document.getElementById('door-container');
+  const modeContainer = document.getElementById('mode-container');
+  const bookContainer = document.getElementById('book-container');
+  const backToModeButton = document.getElementById('back-to-mode');
   const music = document.getElementById('music');
   const musicButton = document.getElementById('music-toggle');
   const MUSIC_START_SECONDS = 35;
@@ -16,6 +19,116 @@
   let startPositionApplied = false;
   let playAttempted = false;
   let consecutiveNoSourceChecks = 0;
+
+  function ensureBodyLocked() {
+    document.body.classList.add('is-locked');
+    document.body.classList.add('pre-open');
+  }
+
+  function startExperience() {
+    // Start music after user interaction (more reliable than autoplay).
+    safelyPlayMusic();
+    setMusicButtonState();
+
+    if (!afterOpenInitialized) {
+      afterOpenInitialized = true;
+      initAfterOpen();
+    }
+  }
+
+  function unlockBody() {
+    document.body.classList.remove('is-locked');
+    document.body.classList.remove('pre-open');
+  }
+
+  window.chooseIntro = function chooseIntro(mode) {
+    ensureBodyLocked();
+
+    if (modeContainer) {
+      modeContainer.hidden = true;
+    }
+
+    if (backToModeButton) {
+      backToModeButton.hidden = false;
+    }
+
+    if (mode === 'katb') {
+      if (doorContainer) {
+        doorContainer.hidden = true;
+      }
+      if (bookContainer) {
+        bookContainer.hidden = false;
+        bookContainer.classList.remove('is-open');
+        bookContainer.classList.remove('intro-dismiss');
+      }
+
+      const introBook = document.getElementById('intro-book');
+      if (introBook && typeof introBook.focus === 'function') introBook.focus();
+      return;
+    }
+
+    // invitation
+    if (bookContainer) {
+      bookContainer.hidden = true;
+      bookContainer.classList.remove('is-open');
+      bookContainer.classList.remove('intro-dismiss');
+    }
+    if (doorContainer) {
+      doorContainer.hidden = false;
+      doorContainer.classList.remove('open');
+      doorContainer.style.display = '';
+    }
+  };
+
+  window.returnToMode = function returnToMode() {
+    ensureBodyLocked();
+
+    if (backToModeButton) {
+      backToModeButton.hidden = true;
+    }
+
+    if (modeContainer) {
+      modeContainer.hidden = false;
+    }
+
+    if (bookContainer) {
+      bookContainer.hidden = true;
+      bookContainer.classList.remove('is-open');
+      bookContainer.classList.remove('intro-dismiss');
+    }
+
+    if (doorContainer) {
+      doorContainer.hidden = true;
+      doorContainer.classList.remove('open');
+      doorContainer.style.display = '';
+    }
+
+    if (music) {
+      try {
+        music.pause();
+      } catch {
+        // ignore
+      }
+    }
+    setMusicButtonState();
+  };
+
+  window.openBook = function openBook() {
+    if (!bookContainer) return;
+
+    const introBook = document.getElementById('intro-book');
+    const isOpen = bookContainer.classList.contains('is-open');
+
+    if (!isOpen) {
+      bookContainer.classList.add('is-open');
+      if (introBook) introBook.setAttribute('aria-expanded', 'true');
+      return;
+    }
+
+    // Second tap: close the book
+    bookContainer.classList.remove('is-open');
+    if (introBook) introBook.setAttribute('aria-expanded', 'false');
+  };
 
   function pad2(value) {
     return String(value).padStart(2, '0');
@@ -240,21 +353,16 @@
   window.openDoors = function openDoors() {
     if (!doorContainer) return;
 
+    doorContainer.hidden = false;
+
     doorContainer.classList.add('open');
 
-    // Start music after user interaction (more reliable than autoplay).
-    safelyPlayMusic();
-    setMusicButtonState();
-
-    if (!afterOpenInitialized) {
-      afterOpenInitialized = true;
-      initAfterOpen();
-    }
+    // Keep invitation behavior the same.
+    startExperience();
 
     setTimeout(() => {
       doorContainer.style.display = 'none';
-      document.body.classList.remove('is-locked');
-      document.body.classList.remove('pre-open');
+      unlockBody();
     }, 2000);
   };
 

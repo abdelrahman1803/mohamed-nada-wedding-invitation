@@ -33,9 +33,45 @@
     ♫
   </button>
 
+  <button id="back-to-mode" class="back-to-mode" type="button" onclick="returnToMode()" aria-label="Back" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <!-- MODE SELECTOR -->
+
+  <div id="mode-container" class="mode-container" role="dialog" aria-modal="true" aria-label="Choose invitation mode">
+
+    <div class="mode-card">
+
+      <h1>
+        Mohamed &amp; Nada
+      </h1>
+
+      <p>
+        Please choose an option
+      </p>
+
+      <div class="mode-actions">
+
+        <button type="button" class="mode-btn" onclick="chooseIntro('katb')">
+          Marriage Contract
+        </button>
+
+        <button type="button" class="mode-btn mode-btn--secondary" onclick="chooseIntro('invitation')">
+          Wedding Invitation
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
   <!-- OPENING DOORS -->
 
-  <div id="door-container">
+  <div id="door-container" hidden>
 
     <div class="door left-door"></div>
     <div class="door right-door"></div>
@@ -52,6 +88,57 @@
 
       <button type="button" class="open-btn" onclick="openDoors()">
         Open Invitation
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- KETAB EL KETAB (BOOK) -->
+
+  <div id="book-container" class="book-container" hidden>
+
+    <div class="book-backdrop" aria-hidden="true"></div>
+
+    <div class="door-content">
+
+      <button
+        type="button"
+        class="intro-book"
+        id="intro-book"
+        onclick="openBook()"
+        aria-expanded="false"
+        aria-label="Open the wedding book">
+
+        <span class="intro-book__cover" aria-hidden="true">
+          <span class="intro-book__title">Mohamed &amp; Nada</span>
+          <span class="intro-book__badge" aria-hidden="true">
+            <img src="illustration2.png" alt="" loading="lazy" decoding="async">
+          </span>
+          <span class="intro-book__subtitle">Tap to open</span>
+        </span>
+
+        <span class="intro-book__spread" aria-hidden="true">
+          <span class="intro-book__page intro-book__page--left">
+            <span class="intro-book__ayah">﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾</span>
+            <span class="intro-book__names">Mohamed &amp; Nada</span>
+
+            <span class="intro-book__label">Save The Date</span>
+            <span class="intro-book__date">6 / 6 / 2026</span>
+          </span>
+
+          <span class="intro-book__page intro-book__page--right">
+            <img
+              class="intro-book__art"
+              src="illustration2.png"
+              alt="Marriage contract illustration"
+              loading="lazy"
+              decoding="async">
+
+            <span class="intro-book__hint">Tap again to close</span>
+          </span>
+        </span>
 
       </button>
 
