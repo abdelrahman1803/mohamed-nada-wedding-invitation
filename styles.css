@@ -327,6 +327,7 @@ section {
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  padding: clamp(18px, 3.5vw, 44px);
   transform-origin: left center;
   transform: perspective(1200px) rotateY(0deg);
   transition: transform 1000ms ease;
@@ -338,7 +339,7 @@ section {
   content: '';
   position: absolute;
   inset: -24px;
-  background-image: url("illustration2.png");
+  background-image: url("./illustration2.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -368,10 +369,13 @@ section {
 .intro-book__title {
   font-family: 'Pinyon Script', cursive;
   font-weight: normal;
-  font-size: clamp(64px, 10vw, 150px);
+  font-size: clamp(44px, 8.5vw, 128px);
   color: rgba(255, 255, 255, 0.98);
   letter-spacing: 0;
   text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  line-height: 0.95;
+  max-width: min(100%, 520px);
+  overflow-wrap: anywhere;
 }
 
 .intro-book__subtitle {
@@ -382,11 +386,12 @@ section {
   text-transform: uppercase;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.92);
+  max-width: min(100%, 520px);
 }
 
 .intro-book__badge {
-  width: clamp(96px, 13vw, 140px);
-  height: clamp(96px, 13vw, 140px);
+  width: clamp(72px, 16vw, 132px);
+  height: clamp(72px, 16vw, 132px);
   border-radius: 999px;
   border: 2px solid rgba(255, 255, 255, 0.45);
   background: rgba(255, 255, 255, 0.14);
@@ -394,6 +399,7 @@ section {
   overflow: hidden;
   display: grid;
   place-items: center;
+  flex: 0 0 auto;
 }
 
 .intro-book__badge img {
@@ -404,6 +410,25 @@ section {
   border-radius: 999px;
   display: block;
   transform: scale(1.12);
+}
+
+@media (max-width: 420px) {
+  .intro-book__cover {
+    gap: 8px;
+  }
+
+  .intro-book__title {
+    font-size: clamp(40px, 11vw, 74px);
+    max-width: 100%;
+  }
+
+  .intro-book__subtitle {
+    letter-spacing: 3px;
+  }
+
+  .intro-book__cover::after {
+    inset: 12px;
+  }
 }
 
 .intro-book__spread {
@@ -588,7 +613,7 @@ section {
   backdrop-filter: blur(12px);
   padding: 60px;
   border-radius: 40px;
-  font-size: 32px;
+  font-size: 30px;
   line-height: 2;
   color: #555;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
