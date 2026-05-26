@@ -20,38 +20,65 @@
   let startPositionApplied = false;
   let playAttempted = false;
   let consecutiveNoSourceChecks = 0;
+  let splashDismissed = false;
+  let splashTimer = null;
 
   function ensureBodyLocked() {
     document.body.classList.add('is-locked');
     document.body.classList.add('pre-open');
   }
 
-  window.dismissSplash = function dismissSplash() {
+  window.dismissSplash = function dismissSplash(immediate = false) {
     ensureBodyLocked();
     startExperience();
 
-    if (splash) {
-      splash.hidden = true;
+    if (splashDismissed) return;
+    splashDismissed = true;
+
+    if (splashTimer) {
+      window.clearTimeout(splashTimer);
+      splashTimer = null;
     }
 
-    if (modeContainer) {
-      modeContainer.hidden = false;
+    const prefersReducedMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!splash || immediate || prefersReducedMotion) {
+      if (splash) splash.hidden = true;
+      if (modeContainer) modeContainer.hidden = false;
+      if (backToModeButton) backToModeButton.hidden = true;
+      return;
     }
 
-    if (backToModeButton) {
-      backToModeButton.hidden = true;
-    }
+    splash.classList.add('splash--leaving');
+    window.setTimeout(() => {
+      if (splash) splash.hidden = true;
+      if (modeContainer) modeContainer.hidden = false;
+      if (backToModeButton) backToModeButton.hidden = true;
+    }, 650);
   };
 
+  function scheduleAutoSplash() {
+    if (!splash || splash.hidden) return;
+    // Show splash briefly, then auto-open the home (mode selector).
+    splashTimer = window.setTimeout(() => window.dismissSplash(false), 2600);
+  }
+
   function startExperience() {
-    // Start music after user interaction (more reliable than autoplay).
-    safelyPlayMusic();
+    // Initialize non-music experience bits.
     setMusicButtonState();
 
     if (!afterOpenInitialized) {
       afterOpenInitialized = true;
       initAfterOpen();
     }
+  }
+
+  function startMusic() {
+    // Start music only after an explicit user action (e.g., opening the invitation).
+    safelyPlayMusic();
+    setMusicButtonState();
   }
 
   function unlockBody() {
@@ -375,8 +402,9 @@
 
     doorContainer.classList.add('open');
 
-    // Keep invitation behavior the same.
+    // Keep invitation behavior the same, but don't tie music to splash.
     startExperience();
+    startMusic();
 
     setTimeout(() => {
       doorContainer.style.display = 'none';
@@ -386,6 +414,11 @@
 
   window.toggleMute = function toggleMute() {
     if (!music || !musicAvailable) return;
+
+    // If user taps the music button, treat it as a user intent to start playback.
+    if (music.paused) {
+      startMusic();
+    }
 
     music.muted = !music.muted;
     setMusicButtonState();
@@ -409,6 +442,8 @@
     });
   }
   setMusicButtonState();
+
+  scheduleAutoSplash();
 
   function initAfterOpen() {
     // COUNTDOWN
