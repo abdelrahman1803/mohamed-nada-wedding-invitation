@@ -22,6 +22,24 @@
 
 <body class="is-locked pre-open">
 
+  <!-- SPLASH (WELCOME) -->
+
+  <div id="splash" class="splash" role="dialog" aria-modal="true" aria-label="Welcome">
+    <div class="splash-card">
+      <h1 class="splash-title" lang="ar" dir="rtl">
+        أهلاً، أنت مدعو لحفل زفاف محمد وندى
+      </h1>
+
+      <p class="splash-subtitle" lang="en" dir="ltr">
+        Welcome! You are invited to the wedding of Mohamed &amp; Nada
+      </p>
+
+      <button type="button" class="mode-btn splash-btn" onclick="dismissSplash()">
+        Continue
+      </button>
+    </div>
+  </div>
+
   <!-- MUSIC -->
 
   <audio id="music" loop preload="none">
@@ -41,7 +59,7 @@
 
   <!-- MODE SELECTOR -->
 
-  <div id="mode-container" class="mode-container" role="dialog" aria-modal="true" aria-label="Choose invitation mode">
+  <div id="mode-container" class="mode-container" role="dialog" aria-modal="true" aria-label="Choose invitation mode" hidden>
 
     <div class="mode-card">
 

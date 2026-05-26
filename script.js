@@ -1,6 +1,7 @@
 /* Mohamed & Nada Wedding - extracted from index.html for maintainability */
 
 (function () {
+  const splash = document.getElementById('splash');
   const doorContainer = document.getElementById('door-container');
   const modeContainer = document.getElementById('mode-container');
   const bookContainer = document.getElementById('book-container');
@@ -24,6 +25,23 @@
     document.body.classList.add('is-locked');
     document.body.classList.add('pre-open');
   }
+
+  window.dismissSplash = function dismissSplash() {
+    ensureBodyLocked();
+    startExperience();
+
+    if (splash) {
+      splash.hidden = true;
+    }
+
+    if (modeContainer) {
+      modeContainer.hidden = false;
+    }
+
+    if (backToModeButton) {
+      backToModeButton.hidden = true;
+    }
+  };
 
   function startExperience() {
     // Start music after user interaction (more reliable than autoplay).
