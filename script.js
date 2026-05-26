@@ -6,8 +6,11 @@
   const modeContainer = document.getElementById('mode-container');
   const bookContainer = document.getElementById('book-container');
   const backToModeButton = document.getElementById('back-to-mode');
+  const invitationContent = document.getElementById('invitation-content');
   const music = document.getElementById('music');
   const musicButton = document.getElementById('music-toggle');
+  const SPLASH_TOTAL_MS = 4000;
+  const SPLASH_LEAVE_MS = 850;
   const MUSIC_START_SECONDS = 35;
   const EVENT = {
     title: 'Mohamed & Nada Wedding',
@@ -26,6 +29,14 @@
   function ensureBodyLocked() {
     document.body.classList.add('is-locked');
     document.body.classList.add('pre-open');
+  }
+
+  function hideInvitationContent() {
+    if (invitationContent) invitationContent.hidden = true;
+  }
+
+  function showInvitationContent() {
+    if (invitationContent) invitationContent.hidden = false;
   }
 
   window.dismissSplash = function dismissSplash(immediate = false) {
@@ -56,13 +67,15 @@
       if (splash) splash.hidden = true;
       if (modeContainer) modeContainer.hidden = false;
       if (backToModeButton) backToModeButton.hidden = true;
-    }, 650);
+    }, SPLASH_LEAVE_MS);
   };
 
   function scheduleAutoSplash() {
     if (!splash || splash.hidden) return;
-    // Show splash briefly, then auto-open the home (mode selector).
-    splashTimer = window.setTimeout(() => window.dismissSplash(false), 2600);
+    // Total splash duration is 4 seconds.
+    // We start the leaving animation so it finishes exactly at 4s.
+    const startLeavingAt = Math.max(0, SPLASH_TOTAL_MS - SPLASH_LEAVE_MS);
+    splashTimer = window.setTimeout(() => window.dismissSplash(false), startLeavingAt);
   }
 
   function startExperience() {
@@ -98,6 +111,7 @@
     }
 
     if (mode === 'katb') {
+      hideInvitationContent();
       if (doorContainer) {
         doorContainer.hidden = true;
       }
@@ -113,6 +127,7 @@
     }
 
     // invitation
+    hideInvitationContent();
     if (bookContainer) {
       bookContainer.hidden = true;
       bookContainer.classList.remove('is-open');
@@ -127,6 +142,8 @@
 
   window.returnToMode = function returnToMode() {
     ensureBodyLocked();
+
+    hideInvitationContent();
 
     if (backToModeButton) {
       backToModeButton.hidden = true;
@@ -402,6 +419,9 @@
 
     doorContainer.classList.add('open');
 
+    // Make the invitation content available behind the doors (no flash before this).
+    showInvitationContent();
+
     // Keep invitation behavior the same, but don't tie music to splash.
     startExperience();
     startMusic();
@@ -443,6 +463,7 @@
   }
   setMusicButtonState();
 
+  hideInvitationContent();
   scheduleAutoSplash();
 
   function initAfterOpen() {
