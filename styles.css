@@ -376,6 +376,8 @@ section {
   line-height: 0.95;
   max-width: min(100%, 520px);
   overflow-wrap: anywhere;
+  text-align: center;
+  padding-inline: 6px;
 }
 
 .intro-book__subtitle {
