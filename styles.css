@@ -449,8 +449,9 @@ section {
 }
 
 .intro-book {
-  width: min(720px, 92vw);
-  height: min(420px, 62vh);
+  /* More natural book proportions: narrower and taller */
+  width: min(620px, 86vw);
+  height: min(520px, 72vh);
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: transparent;
   padding: 0;
@@ -484,8 +485,9 @@ section {
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(8px, 1.4vw, 12px);
+  justify-content: space-evenly;
+  align-items: center;
+  gap: clamp(6px, 1.2vw, 12px);
   padding: calc(var(--cover-frame-inset) + clamp(12px, 2.8vw, 32px));
   transform-origin: left center;
   transform: perspective(1200px) rotateY(0deg);
@@ -537,6 +539,26 @@ section {
   overflow-wrap: anywhere;
   text-align: center;
   padding-inline: 6px;
+}
+
+/* Cover-specific title layout: split names with ampersand on its own line */
+.intro-book__cover .intro-book__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(28px, 6vw, 64px);
+}
+
+.intro-book__cover .cover-amp {
+  font-size: clamp(20px, 4.2vw, 44px);
+  line-height: 0.9;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.intro-book__cover .cover-name-first,
+.intro-book__cover .cover-name-last {
+  display: block;
 }
 
 .intro-book__subtitle {
@@ -610,7 +632,8 @@ section {
   top: 0;
   bottom: 0;
   width: 50%;
-  padding: clamp(18px, 3vw, 32px);
+  /* Slightly larger inner padding so text breathes and fills the page */
+  padding: clamp(22px, 3.6vw, 36px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -632,6 +655,7 @@ section {
 
 .intro-book__page--left {
   left: 0;
+  width: 50%;
   border-right: 1px solid rgba(123, 93, 86, 0.20);
 }
 
@@ -639,6 +663,46 @@ section {
   right: 0;
   border-left: 1px solid rgba(123, 93, 86, 0.10);
   align-items: center;
+}
+
+/* Add inner horizontal padding helpers so content uses page width cleanly */
+.intro-book__page--left {
+  padding-inline-start: clamp(28px, 4vw, 44px);
+}
+.intro-book__page--right {
+  padding-inline-end: clamp(28px, 4vw, 44px);
+}
+
+/* Single-page spread (use full width, hint pinned to bottom) */
+.intro-book__page--single {
+  left: 0;
+  right: 0;
+  width: 100%;
+  border: none;
+  padding: clamp(28px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-book__page--single .intro-book__ayah {
+  max-width: 80%;
+}
+
+.intro-book__page--single .intro-book__names {
+  margin-top: 10px;
+}
+
+.intro-book__page--single .intro-book__hint {
+  margin-top: auto;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(123, 93, 86, 0.75);
+  align-self: center;
+  padding-top: 12px;
 }
 
 .intro-book__label {
@@ -668,6 +732,27 @@ section {
   line-height: 1.05;
   max-width: 100%;
   overflow-wrap: anywhere;
+}
+
+/* Split name lines with ampersand centered on its own line */
+.intro-book__names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.intro-book__names .amp {
+  display: block;
+  font-size: clamp(26px, 4.2vw, 48px);
+  line-height: 0.9;
+  color: rgba(123, 93, 86, 0.85);
+  margin: 0.1em 0;
+}
+
+.intro-book__names .name-first,
+.intro-book__names .name-last {
+  display: block;
 }
 
 .intro-book__date {
