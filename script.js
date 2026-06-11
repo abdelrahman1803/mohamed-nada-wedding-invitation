@@ -7,8 +7,10 @@
   const bookContainer = document.getElementById('book-container');
   const backToModeButton = document.getElementById('back-to-mode');
   const invitationContent = document.getElementById('invitation-content');
+  const consentBanner = document.getElementById('consent-banner');
   const music = document.getElementById('music');
   const musicButton = document.getElementById('music-toggle');
+  const ANALYTICS_CONSENT_KEY = 'mohamed-nada-analytics-consent';
   const SPLASH_TOTAL_MS = 4000;
   const SPLASH_LEAVE_MS = 850;
   const MUSIC_START_SECONDS = 35;
@@ -25,6 +27,157 @@
   let consecutiveNoSourceChecks = 0;
   let splashDismissed = false;
   let splashTimer = null;
+  let analyticsConsent = 'denied';
+
+  function canTrackAnalytics() {
+    return analyticsConsent === 'granted' && typeof gtag !== 'undefined';
+  }
+
+  function getStoredAnalyticsConsent() {
+    try {
+      return window.localStorage.getItem(ANALYTICS_CONSENT_KEY);
+    } catch {
+      return null;
+    }
+  }
+
+  function setStoredAnalyticsConsent(value) {
+    try {
+      window.localStorage.setItem(ANALYTICS_CONSENT_KEY, value);
+    } catch {
+      // ignore
+    }
+  }
+
+  function updateGtagConsent(value) {
+    if (typeof gtag !== 'function') return;
+
+    gtag('consent', 'update', {
+      analytics_storage: value,
+      ad_storage: 'denied',
+      functionality_storage: value,
+      personalization_storage: value,
+      security_storage: 'granted'
+    });
+  }
+
+  function updateConsentBanner() {
+    if (!consentBanner) return;
+
+    consentBanner.hidden = getStoredAnalyticsConsent() !== null;
+  }
+
+  function initializeAnalyticsConsent() {
+    const storedConsent = getStoredAnalyticsConsent();
+
+    if (storedConsent === 'granted' || storedConsent === 'denied') {
+      analyticsConsent = storedConsent;
+      updateGtagConsent(analyticsConsent);
+    } else {
+      analyticsConsent = 'denied';
+    }
+
+    updateConsentBanner();
+
+    if (analyticsConsent === 'granted') {
+      TRACKING.pageView('Wedding Invitation - Mohamed & Nada');
+    }
+  }
+
+  function setAnalyticsConsent(value) {
+    analyticsConsent = value === 'granted' ? 'granted' : 'denied';
+    setStoredAnalyticsConsent(analyticsConsent);
+    updateGtagConsent(analyticsConsent);
+    updateConsentBanner();
+
+    if (analyticsConsent === 'granted') {
+      TRACKING.pageView('Wedding Invitation - Mohamed & Nada');
+    }
+  }
+
+  // ==================== TRACKING ====================
+  const TRACKING = {
+    isEnabled: function() {
+      return canTrackAnalytics();
+    },
+    
+    // Track page view
+    pageView: function(pageName) {
+      if (!this.isEnabled()) return;
+      try {
+        gtag('config', 'G-2SPRM6N3B3', {
+          'page_title': pageName,
+          'page_path': '/' + pageName.toLowerCase().replace(/\s+/g, '-')
+        });
+        console.log('[Tracking] Page View:', pageName);
+      } catch(e) {
+        console.error('[Tracking Error]', e);
+      }
+    },
+
+    // Track events
+    event: function(eventName, eventData = {}) {
+      if (!this.isEnabled()) return;
+      try {
+        gtag('event', eventName, eventData);
+        console.log('[Tracking] Event:', eventName, eventData);
+      } catch(e) {
+        console.error('[Tracking Error]', e);
+      }
+    },
+
+    // Track specific actions
+    trackModeSelection: function(mode) {
+      this.event('mode_selection', {
+        'mode': mode,
+        'timestamp': new Date().toISOString()
+      });
+    },
+
+    trackMusicToggle: function(action) {
+      this.event('music_interaction', {
+        'action': action,
+        'timestamp': new Date().toISOString()
+      });
+    },
+
+    trackBookInteraction: function(action) {
+      this.event('book_interaction', {
+        'action': action,
+        'timestamp': new Date().toISOString()
+      });
+    },
+
+    trackDoorsOpening: function() {
+      this.event('doors_opened', {
+        'timestamp': new Date().toISOString()
+      });
+    },
+
+    trackCalendarSave: function() {
+      this.event('calendar_saved', {
+        'event_type': 'reminder',
+        'timestamp': new Date().toISOString()
+      });
+    },
+
+    trackSplashDismiss: function(method) {
+      this.event('splash_dismissed', {
+        'method': method,
+        'timestamp': new Date().toISOString()
+      });
+    }
+  };
+
+  window.acceptAnalyticsConsent = function acceptAnalyticsConsent() {
+    setAnalyticsConsent('granted');
+  };
+
+  window.rejectAnalyticsConsent = function rejectAnalyticsConsent() {
+    setAnalyticsConsent('denied');
+  };
+
+  initializeAnalyticsConsent();
 
   function ensureBodyLocked() {
     document.body.classList.add('is-locked');
@@ -50,6 +203,9 @@
       window.clearTimeout(splashTimer);
       splashTimer = null;
     }
+
+    // Track splash dismissal
+    TRACKING.trackSplashDismiss(immediate ? 'button_click' : 'auto_timeout');
 
     const prefersReducedMotion =
       typeof window.matchMedia === 'function' &&
@@ -101,6 +257,9 @@
 
   window.chooseIntro = function chooseIntro(mode) {
     ensureBodyLocked();
+
+    // Track mode selection
+    TRACKING.trackModeSelection(mode === 'katb' ? 'Marriage Contract' : 'Wedding Invitation');
 
     if (modeContainer) {
       modeContainer.hidden = true;
@@ -184,12 +343,14 @@
     if (!isOpen) {
       bookContainer.classList.add('is-open');
       if (introBook) introBook.setAttribute('aria-expanded', 'true');
+      TRACKING.trackBookInteraction('opened');
       return;
     }
 
     // Second tap: close the book
     bookContainer.classList.remove('is-open');
     if (introBook) introBook.setAttribute('aria-expanded', 'false');
+    TRACKING.trackBookInteraction('closed');
   };
 
   function pad2(value) {
@@ -292,6 +453,7 @@
     try {
       const ics = buildReminderICS();
       downloadICSFile('Mohamed-Nada-Wedding-Reminders.ics', ics);
+      TRACKING.trackCalendarSave();
     } catch {
       // ignore
     }
@@ -416,8 +578,10 @@
     if (!doorContainer) return;
 
     doorContainer.hidden = false;
-
     doorContainer.classList.add('open');
+
+    // Track doors opening
+    TRACKING.trackDoorsOpening();
 
     // Make the invitation content available behind the doors (no flash before this).
     showInvitationContent();
@@ -442,6 +606,9 @@
 
     music.muted = !music.muted;
     setMusicButtonState();
+
+    // Track music toggle
+    TRACKING.trackMusicToggle(music.muted ? 'muted' : 'unmuted');
   };
 
   // Backwards compatibility (older markup might still call toggleMusic)

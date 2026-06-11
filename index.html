@@ -18,9 +18,44 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260526-3" />
   <script src="script.js?v=20260526-3" defer></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'granted'
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2SPRM6N3B3"></script>
+  <script>
+    gtag('js', new Date());
+
+    gtag('config', 'G-2SPRM6N3B3', {
+      send_page_view: false
+    });
+  </script>
 </head>
 
 <body class="is-locked pre-open">
+
+  <div id="consent-banner" class="consent-banner" role="dialog" aria-modal="false" aria-label="Analytics consent" hidden>
+    <div class="consent-banner__text">
+      We use analytics to understand visits and improve the invitation.
+    </div>
+    <div class="consent-banner__actions">
+      <button type="button" class="consent-banner__button consent-banner__button--secondary" onclick="rejectAnalyticsConsent()">
+        Reject
+      </button>
+      <button type="button" class="consent-banner__button" onclick="acceptAnalyticsConsent()">
+        Accept
+      </button>
+    </div>
+  </div>
 
   <!-- SPLASH (WELCOME) -->
 
